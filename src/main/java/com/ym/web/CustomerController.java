@@ -1,7 +1,9 @@
 package com.ym.web;
 
+import com.ym.dto.BankAccountResponseDTO;
 import com.ym.dto.CustomerRequestDTO;
 import com.ym.dto.CustomerResponseDTO;
+import com.ym.service.BankAccountService;
 import com.ym.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import java.util.List;
 public class CustomerController {
 
     private CustomerService customerService;
+    private BankAccountService bankAccountService;
 
     @PostMapping
     public CustomerResponseDTO addCustomer(@RequestBody CustomerRequestDTO customerRequestDTO){
@@ -38,5 +41,10 @@ public class CustomerController {
     @GetMapping
     public List<CustomerResponseDTO> getCustomer(){
         return customerService.getCustomers();
+    }
+
+    @GetMapping("/{id}/accounts")
+    public List<BankAccountResponseDTO> getCustomerAccounts(@PathVariable Long id){
+        return bankAccountService.getCustomerBankAccounts(id);
     }
 }

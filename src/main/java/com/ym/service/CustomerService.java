@@ -56,7 +56,7 @@ public class CustomerService {
                 () -> new CustomerNotFoundException("Customer " +id+ " not found")
         );
         if(bankAccountRepository.existsByCustomerId(id))
-            throw new CustomerCannotDeleted("Can not delete customern has accounts");
+            throw new CustomerCannotDeleted("Can not delete customer has accounts");
         customerRepository.delete(customer);
     }
 }

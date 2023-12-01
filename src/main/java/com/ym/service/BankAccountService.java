@@ -171,4 +171,21 @@ public class BankAccountService {
         debit(transferRequestDTO.getSourceAccountId(), transferRequestDTO.getAmount());
         credit(transferRequestDTO.getDestAccountId(), transferRequestDTO.getAmount());
     }
+
+    public List<BankAccountResponseDTO> getCustomerBankAccounts(Long customerId){
+        if(!customerRepository.existsById(customerId))
+            throw new CustomerNotFoundException("Customer "+customerId+" not found");
+        List<BankAccount> bankAccounts = bankAccountRepository.findByCustomerId(customerId);
+        return bankAccounts.stream().map(
+                account -> {
+                    BankAccountResponseDTO bankAccountResponseDTO = null;
+                    if (account instanceof CurrentAccount)
+                        bankAccountResponseDTO = bankAccountMapper.toCurrentAccountResponseDTO((CurrentAccount) account);
+                    else
+                        bankAccountResponseDTO = bankAccountMapper.toSavingAccountResponseDTO((SavingAccount) account);
+                    bankAccountResponseDTO.setType(account.getClass().getSimpleName());
+                    return bankAccountResponseDTO;
+                }
+        ).collect(Collectors.toList());
+    }
 }
