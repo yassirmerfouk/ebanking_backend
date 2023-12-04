@@ -19,9 +19,25 @@ public class AccountController {
         return bankAccountService.addCurrentAccount(currentAccountRequestDTO);
     }
 
+    @PutMapping("/currents/{id}")
+    BankAccountResponseDTO updateCurrentAccount(
+            @PathVariable String id,
+            @RequestBody CurrentAccountRequestDTO currentAccountRequestDTO
+    ){
+        return bankAccountService.updateCurrentAccount(id, currentAccountRequestDTO);
+    }
+
     @PostMapping("/savings")
     BankAccountResponseDTO addSavingAccount(@RequestBody SavingAccountRequestDTO savingAccountRequestDTO){
         return bankAccountService.addSavingAccount(savingAccountRequestDTO);
+    }
+
+    @PutMapping("/savings/{id}")
+    BankAccountResponseDTO updateSavingAccount(
+            @PathVariable String id,
+            @RequestBody SavingAccountRequestDTO savingAccountRequestDTO
+    ){
+        return bankAccountService.updateSavingAccount(id,savingAccountRequestDTO);
     }
 
     @GetMapping

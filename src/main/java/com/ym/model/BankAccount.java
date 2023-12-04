@@ -23,4 +23,12 @@ public class BankAccount {
     @JoinColumn(name = "customer_id")
     protected Customer customer;
 
+    public void copy(BankAccount bankAccount){
+        if(bankAccount.id != null) this.id = bankAccount.id;
+        if(bankAccount.createdAt != null) this.createdAt = bankAccount.createdAt;
+        if(bankAccount.balance != null) this.balance = bankAccount.balance;
+        if(bankAccount.status != this.status) this.status = bankAccount.status;
+        // customer later
+    }
+
 }

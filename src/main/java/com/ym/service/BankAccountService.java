@@ -49,6 +49,23 @@ public class BankAccountService {
         return currentAccountResponseDto;
     }
 
+    public BankAccountResponseDTO updateCurrentAccount(String id, CurrentAccountRequestDTO currentAccountRequestDTO){
+        CurrentAccount currentAccount = (CurrentAccount) bankAccountRepository.findById(id).orElseThrow(
+                () -> new AccountNotFoundException("Account " +id+ " not found")
+        );
+        Customer customer = customerRepository.findById(currentAccountRequestDTO.getCustomerId())
+                .orElseThrow(
+                        () -> new CustomerNotFoundException("Customer " + currentAccountRequestDTO.getCustomerId() + " not found")
+                );
+        currentAccount.copy(bankAccountMapper.toCurrentAccount(currentAccountRequestDTO));
+        currentAccount.setCustomer(customer);
+        bankAccountRepository.save(currentAccount);
+        CurrentAccountResponseDto currentAccountResponseDto
+                = bankAccountMapper.toCurrentAccountResponseDTO(currentAccount);
+        currentAccountResponseDto.setType(currentAccount.getClass().getSimpleName());
+        return currentAccountResponseDto;
+    }
+
     public BankAccountResponseDTO addSavingAccount(SavingAccountRequestDTO savingAccountRequestDTO) {
         Customer customer = customerRepository.findById(savingAccountRequestDTO.getCustomerId())
                 .orElseThrow(
@@ -62,6 +79,26 @@ public class BankAccountService {
         bankAccountRepository.save(savingAccount);
         SavingAccountResponseDTO savingAccountResponseDTO =
                 bankAccountMapper.toSavingAccountResponseDTO(savingAccount);
+        savingAccountResponseDTO.setType(savingAccount.getClass().getSimpleName());
+        return savingAccountResponseDTO;
+    }
+
+    public BankAccountResponseDTO updateSavingAccount(
+            String id,
+            SavingAccountRequestDTO savingAccountRequestDTO
+    ){
+        SavingAccount savingAccount = (SavingAccount) bankAccountRepository.findById(id).orElseThrow(
+                () -> new AccountNotFoundException("Account " +id+ " not found")
+        );
+        Customer customer = customerRepository.findById(savingAccountRequestDTO.getCustomerId())
+                .orElseThrow(
+                        () -> new CustomerNotFoundException("Customer " + savingAccountRequestDTO.getCustomerId() + " not found")
+                );
+        savingAccount.copy(bankAccountMapper.toSavingAccount(savingAccountRequestDTO));
+        savingAccount.setCustomer(customer);
+        bankAccountRepository.save(savingAccount);
+        SavingAccountResponseDTO savingAccountResponseDTO
+                = bankAccountMapper.toSavingAccountResponseDTO(savingAccount);
         savingAccountResponseDTO.setType(savingAccount.getClass().getSimpleName());
         return savingAccountResponseDTO;
     }

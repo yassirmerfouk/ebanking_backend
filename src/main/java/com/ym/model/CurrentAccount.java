@@ -20,4 +20,11 @@ public class CurrentAccount extends BankAccount{
         super(id, createdAt, balance, status, customer);
         this.overDraft = overDraft;
     }
+
+    @Override
+    public void copy(BankAccount bankAccount){
+        super.copy(bankAccount);
+        CurrentAccount currentAccount = (CurrentAccount) bankAccount;
+        if(currentAccount.overDraft != null) this.overDraft = currentAccount.overDraft;
+    }
 }

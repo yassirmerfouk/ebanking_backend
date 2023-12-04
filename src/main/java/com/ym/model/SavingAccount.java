@@ -18,4 +18,11 @@ public class SavingAccount extends BankAccount{
         super(id, createdAt, balance, status, customer);
         this.interestRate = interestRate;
     }
+
+    @Override
+    public void copy(BankAccount bankAccount){
+        super.copy(bankAccount);
+        SavingAccount savingAccount = (SavingAccount) bankAccount;
+        if(savingAccount.interestRate != null) this.interestRate = savingAccount.interestRate;
+    }
 }
