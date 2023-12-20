@@ -15,7 +15,7 @@ public class AccountOperation {
     private LocalDate date;
     private Double amount;
     @Enumerated(value = EnumType.STRING)
-    private OperationType type;
+     private OperationType type;
 
     @ManyToOne
     @JoinColumn(name = "account_id")

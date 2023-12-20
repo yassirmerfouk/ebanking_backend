@@ -59,4 +59,10 @@ public class CustomerService {
             throw new CustomerCannotDeleted("Can not delete customer has accounts");
         customerRepository.delete(customer);
     }
+
+    public List<CustomerResponseDTO> getCustomersByLastName(String name){
+        return customerRepository.findByLastNameContains(name).stream()
+                .map(x -> customerMapper.toCustomerResponseDTO(x))
+                .collect(Collectors.toList());
+    }
 }

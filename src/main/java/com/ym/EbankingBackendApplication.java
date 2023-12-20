@@ -37,13 +37,13 @@ public class EbankingBackendApplication {
             @Override
             public void run(String... args) throws Exception {
                 Customer customer1 = Customer.builder()
-                        .firstName("Yassir")
-                        .lastName("Merfouk")
+                        .firstName("yassir")
+                        .lastName("merfouk")
                         .email("yassirmerfouk@gmail.com")
                         .build();
                 Customer customer2 = Customer.builder()
-                        .firstName("Ym")
-                        .lastName("Merfouk")
+                        .firstName("ym")
+                        .lastName("ym")
                         .email("ym@gmail.com")
                         .build();
                 customerRepository.save(customer1);
@@ -70,12 +70,15 @@ public class EbankingBackendApplication {
                             bankAccountRepository.save(currentAccount);
                         }
                 );
-                bankAccountService.getBankAccounts().forEach(
-                        account -> {
-                            bankAccountService.debit(account.getId(), 1000.0);
-                            bankAccountService.credit(account.getId(), 1000.0);
-                        }
-                );
+
+                    bankAccountService.getBankAccounts().forEach(
+                            account -> {
+                                for (int i = 0; i<10;i++) {
+                                    bankAccountService.debit(account.getId(), 1000.0);
+                                    bankAccountService.credit(account.getId(), 1000.0);
+                                }
+                            }
+                    );
             }
         };
     }

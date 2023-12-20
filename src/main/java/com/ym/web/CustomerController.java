@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/customers")
+@CrossOrigin
 @AllArgsConstructor
 public class CustomerController {
 
@@ -46,5 +47,10 @@ public class CustomerController {
     @GetMapping("/{id}/accounts")
     public List<BankAccountResponseDTO> getCustomerAccounts(@PathVariable Long id){
         return bankAccountService.getCustomerBankAccounts(id);
+    }
+
+    @GetMapping("/search/lastname")
+    public List<CustomerResponseDTO> getCustomersByLastName(@RequestParam String keyword){
+        return customerService.getCustomersByLastName(keyword);
     }
 }
