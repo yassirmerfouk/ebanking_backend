@@ -56,6 +56,16 @@ public class AccountController {
         bankAccountService.transfer(transferRequestDTO);
     }
 
+    @PostMapping("/debit")
+    public void debit(@RequestBody DebitRequestDTO debitRequestDTO){
+        bankAccountService.debit(debitRequestDTO.getAccountId(), debitRequestDTO.getAmount());
+    }
+
+    @PostMapping("/credit")
+    public void credit(@RequestBody CreditRequestDTO creditRequestDTO){
+        bankAccountService.credit(creditRequestDTO.getAccountId(), creditRequestDTO.getAmount());
+    }
+
     @GetMapping("/{accountId}/operations")
     public List<AccountOperationResponseDTO> getOperations(@PathVariable String accountId){
         return bankAccountService.getBankAccountOperations(accountId);

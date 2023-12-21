@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -148,7 +149,7 @@ public class BankAccountService {
                         () -> new AccountNotFoundException("Account " +accountId+ " not found")
                 );
         Page<AccountOperation> accountOperations =
-                accountOperationRepository.findByBankAccountId(accountId, PageRequest.of(page,size));
+                accountOperationRepository.findByBankAccountIdOrderByDateDesc(accountId, PageRequest.of(page,size));
         PageAccountOperationsDTO pageAccountOperationsDTO = PageAccountOperationsDTO.builder()
                 .customerId(bankAccount.getCustomer().getId())
                 .fullName(bankAccount.getCustomer().getLastName() + " " + bankAccount.getCustomer().getFirstName())
@@ -177,7 +178,7 @@ public class BankAccountService {
         bankAccount.setBalance(bankAccount.getBalance() - amount);
         AccountOperation accountOperation = AccountOperation.builder()
                 .id(UUID.randomUUID().toString())
-                .date(LocalDate.now())
+                .date(LocalDateTime.now())
                 .amount(amount)
                 .type(OperationType.DEBIT)
                 .bankAccount(bankAccount)
@@ -195,7 +196,7 @@ public class BankAccountService {
         bankAccount.setBalance(bankAccount.getBalance() + amount);
         AccountOperation accountOperation = AccountOperation.builder()
                 .id(UUID.randomUUID().toString())
-                .date(LocalDate.now())
+                .date(LocalDateTime.now())
                 .amount(amount)
                 .type(OperationType.CREDIT)
                 .bankAccount(bankAccount)

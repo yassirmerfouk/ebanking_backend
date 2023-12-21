@@ -11,11 +11,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor @AllArgsConstructor @Setter @Getter
 public class AccountOperationResponseDTO {
     private String id;
-    private LocalDate date;
+    private LocalDateTime date;
     private Double amount;
     private OperationType type;
 /*    @JsonProperty(value = "account")
