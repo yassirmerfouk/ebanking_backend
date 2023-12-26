@@ -3,6 +3,7 @@ package com.ym.web;
 import com.ym.dto.*;
 import com.ym.service.BankAccountService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,11 +17,13 @@ public class AccountController {
     private BankAccountService bankAccountService;
 
     @PostMapping("/currents")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     BankAccountResponseDTO addCurrentAccount(@RequestBody CurrentAccountRequestDTO currentAccountRequestDTO){
         return bankAccountService.addCurrentAccount(currentAccountRequestDTO);
     }
 
     @PutMapping("/currents/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     BankAccountResponseDTO updateCurrentAccount(
             @PathVariable String id,
             @RequestBody CurrentAccountRequestDTO currentAccountRequestDTO
@@ -29,11 +32,13 @@ public class AccountController {
     }
 
     @PostMapping("/savings")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     BankAccountResponseDTO addSavingAccount(@RequestBody SavingAccountRequestDTO savingAccountRequestDTO){
         return bankAccountService.addSavingAccount(savingAccountRequestDTO);
     }
 
     @PutMapping("/savings/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     BankAccountResponseDTO updateSavingAccount(
             @PathVariable String id,
             @RequestBody SavingAccountRequestDTO savingAccountRequestDTO
@@ -52,16 +57,19 @@ public class AccountController {
     }
 
     @PostMapping("/transfer")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public void transfer(@RequestBody TransferRequestDTO transferRequestDTO){
         bankAccountService.transfer(transferRequestDTO);
     }
 
     @PostMapping("/debit")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public void debit(@RequestBody DebitRequestDTO debitRequestDTO){
         bankAccountService.debit(debitRequestDTO.getAccountId(), debitRequestDTO.getAmount());
     }
 
     @PostMapping("/credit")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public void credit(@RequestBody CreditRequestDTO creditRequestDTO){
         bankAccountService.credit(creditRequestDTO.getAccountId(), creditRequestDTO.getAmount());
     }

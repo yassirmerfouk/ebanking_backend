@@ -6,6 +6,7 @@ import com.ym.dto.CustomerResponseDTO;
 import com.ym.service.BankAccountService;
 import com.ym.service.CustomerService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,16 +21,19 @@ public class CustomerController {
     private BankAccountService bankAccountService;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public CustomerResponseDTO addCustomer(@RequestBody CustomerRequestDTO customerRequestDTO){
         return customerService.addCustomer(customerRequestDTO);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public CustomerResponseDTO updateCustomer(@PathVariable Long id,@RequestBody CustomerRequestDTO customerRequestDTO){
         return customerService.updateCustomer(id,customerRequestDTO);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public void deleteCustomer(@PathVariable Long id){
         customerService.deleteCustomer(id);
     }

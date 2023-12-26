@@ -1,18 +1,14 @@
 package com.ym;
 
 import com.ym.enums.AccountStatus;
-import com.ym.model.AccountOperation;
-import com.ym.model.CurrentAccount;
-import com.ym.model.Customer;
-import com.ym.model.SavingAccount;
-import com.ym.repository.AccountOperationRepository;
-import com.ym.repository.BankAccountRepository;
-import com.ym.repository.CustomerRepository;
+import com.ym.model.*;
+import com.ym.repository.*;
 import com.ym.service.BankAccountService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -31,7 +27,10 @@ public class EbankingBackendApplication {
             CustomerRepository customerRepository,
             BankAccountRepository bankAccountRepository,
             AccountOperationRepository accountOperationRepository,
-            BankAccountService bankAccountService
+            BankAccountService bankAccountService,
+            UserRepository userRepository,
+            RoleRepository roleRepository,
+            PasswordEncoder passwordEncoder
     ){
         return new CommandLineRunner() {
             @Override
@@ -79,7 +78,16 @@ public class EbankingBackendApplication {
                                 }
                             }
                     );
+                Role role1 = Role.builder().name("ADMIN").build();
+                Role role2 = Role.builder().name("USER").build();
+                roleRepository.save(role1);
+                roleRepository.save(role2);
+                User user1 = User.builder().username("admin").password(passwordEncoder.encode("123456")).roles(Arrays.asList(role1,role2)).build();
+                User user2 = User.builder().username("user").password(passwordEncoder.encode("123456")).roles(Arrays.asList(role2)).build();
+                userRepository.save(user1);
+                userRepository.save(user2);
             }
+
         };
     }
 }
